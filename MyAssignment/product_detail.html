@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Coffee Shop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script src="facebook.js"></script>
+    <script src="google.js"></script>
+    <script src="common.js"></script>
+</head>
+
+<body>
+    <!-- header nav -->
+    <nav class="header navbar navbar-expand-lg navbar-dark bg-dark">
+        <button type="button" id="sidebarCollapse" class="btn nav-btn nav-item">
+            <i class="fas fa-align-left mr-2"></i>
+        </button>
+        <a class="navbar-brand ml-2" href="#">
+            <img src="images/home-icon.png" alt="Navbar" class="img-fluid site-icon" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto btn-group">
+            <button class="btn nav-btn nav-item active" onclick="goToHomePage()">Home</button>
+            <button class="btn nav-btn nav-item" onclick="goToCoffeePage()">Coffee</button>
+            <button class="btn nav-btn nav-item" onclick="goToTeaPage()">Tea</button>
+            <button class="btn nav-btn nav-item" onclick="goToMilkPage()">Milk</button>
+            <button id="special-bttn" class="btn nav-btn nav-item"></button>
+        </div>
+        <form id='search-form'>
+            <div id='search-container' class="form-group my-2">
+                <span class="fa fa-search form-control-icon"></span>
+                <input id="search-input" type="text" class="form-control" placeholder="Search" onkeyup="searchProduct()">
+            </div>
+            <div class="search-result-container">
+
+            </div>
+        </form>
+        <div id="login" class="nav-btn nav-item my-auto">
+
+        </div>
+    </nav>
+    <!-- login modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="login-modal-label">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <a href="#" id="facebooksignin" title="Facebook" class="btn btn-facebook btn-lg w-100 my-2">
+                        <i class="fab fa-facebook facebook-icon float-left"></i>
+                        Login with Facebook
+                    </a>
+                    <a href="#" id="googlesignin" title="Google" class="btn btn-google btn-lg w-100 my-2">
+                        <i class="fab fa-google google-icon float-left"></i>
+                        Login with Google
+                    </a>
+                    <div class="strike">
+                        <span>or</span>
+                    </div>
+                    <form id="loginform" onsubmit="mysignin();return false;">
+                        <div class="form-group my-2">
+                            <span class="fa fa-envelope form-control-icon"></span>
+                            <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group my-2">
+                            <span class="fa fa-lock form-control-icon"></span>
+                            <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <button type="submit" title="Login" class="btn btn-login btn-lg w-100 my-2">
+                            Login
+                        </button>
+                    </form>
+
+                    <div class="row mx-auto justify-content-center align-items-center">
+                        <a data-dismiss="modal" title="Forgot" data-toggle="modal" href="#forgot-pass-modal" class="forgot-password">
+                            Forgot password?
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row mx-auto justify-content-center align-items-center">
+                        Don't have an account?
+                        <a data-dismiss="modal" href="#signup-email-modal" data-toggle="modal" title="SignUp" class="sign-up pl-2"> Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile/Edit modal -->
+    <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profile-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profile-modal-label">Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-signup-body">
+                    <form onsubmit="updateUserProfile();return false;">
+                        <div id="profile-email-container" class="form-group row">
+                            <label for="profile-email" class="col-sm-2 col-form-label">Email:</label>
+                            <div class="col-sm-10">
+                                <span class="fa fa-envelope form-control-icon"></span>
+                                <input id="profile-email" type="text" class="form-control" placeholder="Email address" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="profile-phone" class="col-sm-2 col-form-label">Phone:</label>
+                            <div class="col-sm-10">
+                                <span class="fa fa-mobile form-control-icon"></span>
+                                <input id="profile-phone" pattern='[0-9]*' type="text" class="form-control" placeholder="Phone Number">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="profile-first-name" class="col-sm-3 col-form-label">First Name:</label>
+                            <div class="col-sm-9">
+                                <span class="fas fa-user form-control-icon"></span>
+                                <input id="profile-first-name" type="text" class="form-control" placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="profile-last-name" class="col-sm-3 col-form-label">Last Name:</label>
+                            <div class="col-sm-9">
+                                <span class="fas fa-user form-control-icon"></span>
+                                <input id="profile-last-name" type="text" class="form-control" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="profile-address" class="col-sm-2 col-form-label">Address:</label>
+                            <div class="col-sm-10">
+                                <span class="fas fa-user form-control-icon"></span>
+                                <input id="profile-address" type="text" class="form-control" placeholder="Address">
+                            </div>
+                        </div>
+                        <div class="font-weight-bold">
+                            <b>Birthdate</b>
+                            <a id="profile-alert-birthdate" class="alert profile-error-container" style="color: red"> (*) Invalid date</a>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label for="profile-day">Day</label>
+                                <select id="profile-day" class="form-control">
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="profile-month">Month</label>
+                                <select id="profile-month" class="form-control">
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="profile-year">Year</label>
+                                <select id="profile-year" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="profile-country">Country</label>
+                            <select id="profile-country" class="form-control">
+                            </select>
+                        </div>
+                        <button type="submit" title="Save Change" class="btn-block btn-login btn-lg w-100 my-2">
+                            Save Change
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" title="Change Password" class="btn-block btn-login btn-lg w-100 my-2" data-toggle="modal" data-target="#change-pass-modal">
+                        Change Password
+                    </button>
+                    <button data-dismiss="modal" title="Log Out" class="btn-block btn-login btn-lg w-100 my-2" onclick="logOut()">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change password modal -->
+    <div class="modal fade" id="change-pass-modal" tabindex="-1" role="dialog" aria-labelledby="change-pass-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="change-pass-modal-label">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-signup-body">
+                    <form id="change-pass-form" onsubmit="changePassword();return false;">
+                        <div class="form-group row">
+                            <label for="change-pass-old" class="col-sm-4 col-form-label font-weight-bold">Old Password</label>
+                            <div class="col-sm-8">
+                                <span class="fa fa-lock form-control-icon"></span>
+                                <input id="change-pass-old" type="password" class="form-control" placeholder="Old Password">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="change-pass-new" class="col-sm-4 col-form-label font-weight-bold">New Password</label>
+                            <div class="col-sm-8">
+                                <span class="fa fa-lock form-control-icon"></span>
+                                <input id="change-pass-new" type="password" class="form-control" placeholder="New Password">
+                            </div>
+                        </div>
+                        <a id="change-alert-pass" class="alert change-error-container" style="color: red">(*) New Password not match</a>
+                        <div class="form-group row">
+                            <label for="change-pass-new-confirm" class="col-sm-4 col-form-label"></label>
+                            <div class="col-sm-8">
+                                <span class="fas fa-lock form-control-icon"></span>
+                                <input id="change-pass-new-confirm" type="password" class="form-control" placeholder="Retype New Password">
+                            </div>
+                        </div>
+                        <button type="submit" href="#" title="Sign up" class="btn-block btn-login btn-lg w-100 my-2">
+                            Change
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign up with email modal -->
+    <div class="modal fade" id="signup-email-modal" tabindex="-1" role="dialog" aria-labelledby="signup-email-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signup-email-modal-label">Signup</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-signup-body">
+                    <form id="signupform" onsubmit="signup();return false;">
+                        <div class="font-weight-bold">
+                            Email
+                            <a id="signup-alert-email" class="alert signup-error-container" style="color: red"> (*)Email already exist</a>
+                        </div>
+                        <div class="form-group my-2">
+                            <span class="fa fa-envelope form-control-icon"></span>
+                            <input id="signup-email" type="email" name="email" class="form-control" placeholder="Email address" required>
+                        </div>
+
+                        <div class="font-weight-bold">
+                            First name
+                        </div>
+                        <div class="form-group my-2">
+                            <span class="fas fa-user form-control-icon"></span>
+                            <input id="signup-first-name" type="text" name="firstname" class="form-control" placeholder="First Name" required>
+                        </div>
+
+                        <div class="font-weight-bold">
+                            Last name
+                        </div>
+                        <div class="form-group my-2">
+                            <span class="fas fa-user form-control-icon"></span>
+                            <input id="signup-last-name" type="text" name="lastname" class="form-control" placeholder="Last Name" required>
+                        </div>
+
+                        <div class="font-weight-bold">
+                            Password
+                            <a id="signup-alert-pass" class="alert signup-error-container" style="color: red">(*) Password not matched</a>
+                        </div>
+                        <div class="form-group my-2">
+                            <span class="fa fa-lock form-control-icon"></span>
+                            <input id="signup-password" type="password" name="password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <div class="form-group my-2">
+                            <span class="fa fa-lock form-control-icon"></span>
+                            <input id="signup-repassword" type="password" name="repassword" class="form-control" placeholder="Retype-Password" required>
+                        </div>
+
+                        <div class="font-weight-bold">
+                            Birthdate
+                            <a id="signup-alert-birthdate" class="alert signup-error-container" style="color: red"> (*) Invalid date</a>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label for="input-day">Day</label>
+                                <select name="birthday" id="input-day" class="form-control">
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="input-month">Month</label>
+                                <select name="birthmonth" id="input-month" class="form-control">
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="input-year">Year</label>
+                                <select name="birthyear" id="input-year" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            We’ll send you marketing promotions, special offers, inspiration, and policy updates via email.
+                        </div>
+                        <button type="submit" href="#" title="Sign up" class="btn btn-login btn-lg w-100 my-2">
+                            Sign Up
+                        </button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="row mx-auto justify-content-center align-items-center">
+                        Already have an account?
+                        <a data-dismiss="modal" data-toggle="modal" href="#login-modal" class="log-in pl-2">
+                        Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Forgot password modal -->
+    <div class="modal fade" id="forgot-pass-modal" tabindex="-1" role="dialog" aria-labelledby="forgot-pass-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgot-pass-modal-label">Reset Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100 forgot-pass-description">
+                        Enter the email address associated with your account, and we’ll email you a link to reset your password.
+                    </div>
+                    <form>
+                        <div class="form-group my-2">
+                            <label for="input-forgot" class="font-weight-bold">Email address</label>
+                            <span class="fa fa-envelope form-control-icon"></span>
+                            <input id="input-forgot" type="email" class="form-control" placeholder="Email address">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-start">
+                    <div class="mr-auto">
+                        <a href="#login-modal" data-dismiss="modal" data-toggle="modal" title="Login" class="btn btn-back-to-login btn-lg">
+                            <i class="fa fa-angle-left"></i>
+                            Back to Login
+                        </a>
+                    </div>
+                    <div class="">
+                        <button type="button" class="btn btn-lg btn-login" aria-label="Close" onclick="resetPassword()">
+                            Send reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <!-- Side bar -->
+        <nav id="sidebar" class="bg-dark">
+            <div class="sidebar-header text-center">
+                Categories
+            </div>
+            
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#coffee_sub_menu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Coffee</a>
+                    <ul class="collapse list-unstyled pl-2" id="coffee_sub_menu">
+                        <li>
+                            <a class="sub-category" onclick="goToCoffeePage('Traditional-Coffee')">Traditional Coffee</a>
+                            <!--https://www.highlandscoffee.com.vn/en/coffee.html-->
+                        </li>
+                        <li>
+                            <a class="sub-category" onclick="goToCoffeePage('Espresso')">Espresso</a>
+                            <!-- http://en.starbucks.vn/menu-list/beverage-list/espresso-beverages        +           http://www.urbanstation.com.vn/index.php/menu/item/2/ice_blended?fbclid=IwAR004dGOWokx-eOmCD2B2gpgsNgoc6PgrAZ9cpJ1MRjmrzn2s_KuGorFb3o -->
+                        </li>
+                        <li>
+                            <a class="sub-category" onclick="goToCoffeePage('Ice-Blended')">Ice Blended</a>
+                            <!-- http://en.starbucks.vn/menu-list/beverage-list/frappuccino-blended-coffee -->
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#tea_sub_menu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Tea</a>
+                    <ul class="collapse list-unstyled pl-2" id="tea_sub_menu">
+                        <li>
+                            <a class="sub-category" onclick="goToTeaPage('Brewed-Tea')">Brewed Tea</a><!-- http://en.starbucks.vn/menu-list/beverage-list/brewed-tea      -->
+                        </li>
+                        <li>
+                            <a class="sub-category" onclick="goToTeaPage('Premium-Teapresso')">Premium Teapresso</a><!--     http://comebuy.com.vn/product-category/tra-tuoi/?lang=en              -->
+                        </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#milk_sub_menu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Milk</a>
+                    <ul class="collapse list-unstyled pl-2" id="milk_sub_menu">
+                        <li>
+                            <a class="sub-category" onclick="goToMilkPage('Milk-Tea')">Milk Tea</a><!--              http://comebuy.com.vn/product-category/tra-sua/?lang=en             -->
+                        </li>
+                        <li>
+                            <a class="sub-category" onclick="goToMilkPage('Fresh-Milk')">Fresh Milk</a>  <!--   http://www.urbanstation.com.vn/index.php/menu/item/2/ice_blended?fbclid=IwAR004dGOWokx-eOmCD2B2gpgsNgoc6PgrAZ9cpJ1MRjmrzn2s_KuGorFb3o        -->
+                        </li>
+                    </ul>
+                </li>
+                
+            </ul>
+        </nav>
+        <!-- Main content -->
+
+
+        <div class="container-fluid">
+            <div class="container">
+                <main class="mt-5 pt-4">
+                    <div class="container dark-grey-text mt-5">
+
+                        <!--Grid row-->
+                        <div class="row wow fadeIn">
+
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-4">
+
+                                <img id="image" src="#"
+                                class="img-fluid" alt="">
+
+                            </div>
+                            <!--Grid column-->
+
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-4">
+
+                                <!--Content-->
+                                <div id="product-content" class="p-4">
+
+                                 
+
+                                </div>
+                                <!--Content-->
+
+                            </div>
+                            <!--Grid column-->
+
+                        </div>
+                        <!--Grid row-->
+                    </main>
+                </div>
+
+                <div class="content-container">
+                    <div class="section bg-transparent my-2">
+                        <h3>Map</h3>
+                    </div>
+                    <div class="contents map-container">
+                        <div id="map">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+
+        </div>
+        <script src="script.js"></script>
+        <script src="product_detail/product_detail.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUqgFHkw-1WuVV9TqE9kd5zuNydXnp3SA&callback=initMap"></script>
+    </body>
+
+    </html>
