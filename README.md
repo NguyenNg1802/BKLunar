@@ -34,38 +34,43 @@
 
 > ERD diagram
 
-<img src="https://github.com/NguyenNg1802/BkLunar/blob/master/Images/erd.png" width="400" height="500">
+![ERD diagram](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/erd.png)
 
 
 > Use-case diagram
 
-<img src="https://github.com/NguyenNg1802/BkLunar/blob/master/Images/use_case.png" width="400" height="500">
+![Use-case diagram](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/usecase.png)
+
 
 > Home page
 
-<img src="https://github.com/NguyenNg1802/BkLunar/blob/master/Images/home_page.png" width="400" height="500">
+![Home page](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/main.png)
+
 
 
 > Log in screen
 
-<img src="https://github.com/NguyenNg1802/BkLunar/blob/master/Images/login.png" width="400" height="500">
+![Login](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/login.png)
+
 
 
 > Order page
 
-<img src="https://github.com/NguyenNg1802/BkLunar/blob/master/Images/order_page.png" width="400" height="500">
+![Order](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/order.png)
+
 
 
 > Categories
 
-<img src="https://github.com/NguyenNg1802/BkLunar/blob/master/Images/category.png" width="400" height="500">
+![Category](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/category.png)
+
 
 > Search bar
 
-<img src="https://github.com/NguyenNg1802/BkLunar/blob/master/Images/search_bar.png" width="400" height="500">
+![Search](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/search.png)
 
 > Bevarage
 
-<img src="ttps://github.com/NguyenNg1802/BkLunar/blob/master/Images/product.png" width="400" height="500">
+![Bevarage](https://github.com/NguyenNg1802/BkLunar/blob/master/Images/product.png)
 
 
